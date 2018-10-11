@@ -1,3 +1,5 @@
+const Request = require('./requestHandler.js')
+
 module.exports = {
     create: function () {
         console.log('here too');

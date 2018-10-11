@@ -1072,7 +1072,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(48);
+module.exports = __webpack_require__(49);
 
 
 /***/ }),
@@ -1089,6 +1089,8 @@ module.exports = __webpack_require__(48);
 __webpack_require__(12);
 
 window.Vue = __webpack_require__(36);
+
+window.Vue.config.productionTip = false;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -43457,7 +43459,7 @@ var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(46)
 /* template */
-var __vue_template__ = __webpack_require__(47)
+var __vue_template__ = __webpack_require__(48)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -43501,6 +43503,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__register_js__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__register_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__register_js__);
 //
 //
 //
@@ -43540,7 +43544,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var Register = __webpack_require__(59);
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         console.log('Component mounted.');
@@ -43550,7 +43554,7 @@ var Register = __webpack_require__(59);
     methods: {
         getTest: function getTest() {
             console.log('here');
-            Register.create().then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0__register_js___default.a.create().then(function (response) {
                 console.log(response);
             });
         }
@@ -43560,6 +43564,19 @@ var Register = __webpack_require__(59);
 
 /***/ }),
 /* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Request = __webpack_require__(60);
+
+module.exports = {
+    create: function create() {
+        console.log('here too');
+        return Request.get('/test');
+    }
+};
+
+/***/ }),
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -43648,13 +43665,12 @@ if (false) {
 }
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 49 */,
 /* 50 */,
 /* 51 */,
 /* 52 */,
@@ -43664,14 +43680,91 @@ if (false) {
 /* 56 */,
 /* 57 */,
 /* 58 */,
-/* 59 */
+/* 59 */,
+/* 60 */
 /***/ (function(module, exports) {
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 module.exports = {
-    create: function create() {
-        console.log('here too');
-        return Request.get('/test');
+    get: function get(url, params, options) {
+        return window.axios.get(url, params, options).then(function (res) {
+            return res.data;
+        }).catch(function (erro) {
+            return handleError(erro);
+        });
+    },
+    post: function post(url, body, options) {
+        return window.axios.post(url, body, options).then(function (res) {
+            return res.data;
+        }).catch(function (erro) {
+            return handleError(erro);
+        });
+    },
+    put: function put(url, body) {
+        return window.axios.put(url, body).then(function (res) {
+            return res.data;
+        }).catch(function (erro) {
+            return handleError(erro);
+        });
+    },
+    patch: function patch(url, body) {
+        return window.axios.patch(url, body).then(function (res) {
+            return res.data;
+        }).catch(function (erro) {
+            return handleError(erro);
+        });
+    },
+    delete: function _delete(url, params) {
+        return window.axios.delete(url, body).then(function (res) {
+            return res.data;
+        }).catch(function (erro) {
+            return handleError(erro);
+        });
     }
+};
+
+var handleError = function handleError(error) {
+    var message;
+    switch (error.status) {
+        case 401:
+            /*Auth.logout().then(() => {
+              window.VueInstance.$router.push(`/auth?return=${window.location.pathname}`)
+            })*/
+            return {
+                error: true,
+                code: error.status,
+                message: 'Please login.'
+            };
+        case 500:
+            message = ['500 ERROR: Please contact support.'];
+            window.Vue.toast('500 ERROR: Please contact support.', { error: true });
+            break;
+        case 404:
+            message = ['The requested data was not found.'];
+            break;
+        case 400:
+            message = error.body;
+            window.Vue.toast(error.body, { error: true });
+            break;
+        case 422:
+            message = error.body;
+            if (typeof message === 'string') {
+                window.Vue.toast(message, { error: true, dismiss: false });
+            } else if ((typeof message === 'undefined' ? 'undefined' : _typeof(message)) === 'object') {
+                window.Vue.toast(message[Object.keys(message)[0]], { error: true, dismiss: false });
+            } else {
+                window.Vue.toast('Check your input and try again.', { error: true, dismiss: false });
+            }
+            break;
+        default:
+            message = error.body;
+    }
+    return {
+        error: true,
+        code: error.status,
+        message: message
+    };
 };
 
 /***/ })

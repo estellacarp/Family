@@ -37,7 +37,7 @@
 </template>
 
 <script>
-    const Register = require('../../../resources/register.js');
+    import Register from '../register.js'
     export default {
         mounted() {
             console.log('Component mounted.');
@@ -49,6 +49,7 @@
                 Register.create()
                     .then((response) => {
                         console.log(response);
+                        
                     })
             }
         }
