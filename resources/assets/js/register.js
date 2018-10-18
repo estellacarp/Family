@@ -1,8 +1,9 @@
 const Request = require('./requestHandler.js')
 
 module.exports = {
-    create: function () {
+    create: function (params) {
         console.log('here too');
-        return Request.get('/test');
+        console.log(params)
+        return Request.post('/register', params);
     }
 }
