@@ -6,28 +6,44 @@
                     <div class="panel-heading">Login</div>
                     <h1>Hello Register Component</h1>    
                     <div class="form-group">
-                        <label  class="col-md-4 control-label">Name</label>
+                        <label  class="col-md-4 control-label">First Name</label>
                         <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" required>
+                            <input type="text" v-model="user.first_name" class="form-control" name="email" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Group</label>
+                        <label  class="col-md-4 control-label">Last Name</label>
                         <div class="col-md-6">
-                            <input type="password" class="form-control" name="password" required>
+                            <input type="text" v-model="user.last_name" class="form-control" name="email" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label  class="col-md-4 control-label">E-Mail Address</label>
                         <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" required>
+                            <input type="email" v-model="user.email" class="form-control" name="email" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label  class="col-md-4 control-label">password</label>
-                        <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" required>
+                            <label for="password" class="col-md-4 control-label">Password</label>
+
+                            <div class="col-md-6">
+                                <input id="password" v-model="user.password" type="password" class="form-control" name="password" required>
+                            </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="password_confirmation" class="col-md-4 control-label">Confirm Password</label>
+
+                            <div class="col-md-6">
+                                <input id="password_confirmation" v-model="user.password_confirmation" type="password" class="form-control" name="password_confirmation" required>
+                            </div>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-4">
+                        <button type="submit" class="btn btn-primary" @click="getTest()">
+                            Register
+                        </button>
                     </div>
                 </div>
                 
@@ -39,17 +55,23 @@
 <script>
     import Register from '../register.js'
     export default {
-        mounted() {
-            console.log('Component mounted.');
-            this.getTest();
+        data () {
+            return {
+                user: {
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation:''                },
+            }
+        },
+        mounted () {
         },
         methods: {
             getTest() {
-                console.log('here');
-                Register.create()
+                Register.create(this.user)
                     .then((response) => {
-                        console.log(response);
-                        
+                        console.log(response);     
                     })
             }
         }
