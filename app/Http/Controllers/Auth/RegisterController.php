@@ -36,7 +36,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('guest');
+        $this->middleware('guest');
     }
 
     /**
@@ -63,8 +63,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        logger('here');
-        logger($data);
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' =>$data['last_name'],
